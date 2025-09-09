@@ -6,7 +6,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native'
 export const Main = () => {
     const [time, setTime] =  useState<number>(0.0);
     const [isTimer, setIsTimer] = useState<NodeJS.Timeout | null>(null);
-    
+    const [lastTime, setLastTime] = useState<number | null>(null);
 
     function handleTimeClick() {
        if (!!!isTimer) {
@@ -22,6 +22,7 @@ export const Main = () => {
     }
 
     function handleResetClick() {
+        setLastTime(time);
         setTime(0.0);
         if(isTimer) {
             clearInterval(isTimer);
@@ -42,6 +43,8 @@ export const Main = () => {
                 <TouchableOpacity style={styles.button} onPress={handleTimeClick}><Text style={styles.buttonText}>{!!!isTimer ? 'Start' : 'Stop'}</Text></TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={handleResetClick}><Text style={styles.buttonText}>Restart</Text></TouchableOpacity>
             </View>
+
+            {lastTime ? <Text style={{fontSize: 25, color: '#fff', marginTop: 40}}>Last time: {lastTime.toFixed(2)}s</Text> : null}
         </View>
     )
 }
